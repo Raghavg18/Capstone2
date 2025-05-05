@@ -11,8 +11,12 @@ import Testimonials from "./components/Testimonials/Testimonials";
 import Footer from "./components/Footer/Footer";
 import Popup from "./components/Popup/Popup";
 import { CartProvider } from "./components/Context/CartContext";
+import { AuthProvider } from "./components/Context/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CartPage from "./components/Pages/CartPage";
+import Login from "./components/Auth/Login";
+import Signup from "./components/Auth/Signup";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   const [orderPopup, setOrderPopup] = React.useState(false);
@@ -32,27 +36,35 @@ const App = () => {
 
   return (
     <Router>
-    <CartProvider>
-    <div className="bg-white dark:bg-gray-900 dark:text-white duration-200">
-      <Navbar handleOrderPopup={handleOrderPopup} />
-      <Routes>
-        <Route path="/" element={
-          <>
-            <Hero handleOrderPopup={handleOrderPopup} />
-            <Products />
-            <TopProducts handleOrderPopup={handleOrderPopup} />
-            <Banner />
-            <Subscribe />
-            <Products />
-            <Testimonials />
-            <Footer />
-          </>
-        } />
-        <Route path="/cart" element={<CartPage />} />
-      </Routes>
-      <Popup orderPopup={orderPopup} setOrderPopup={setOrderPopup} />
-    </div>
-    </CartProvider>
+      <AuthProvider>
+        <CartProvider>
+          <div className="bg-white dark:bg-gray-900 dark:text-white duration-200">
+            <Navbar handleOrderPopup={handleOrderPopup} />
+            <Routes>
+              <Route path="/" element={
+                <>
+                  <Hero handleOrderPopup={handleOrderPopup} />
+                  <Products />
+                  <TopProducts handleOrderPopup={handleOrderPopup} />
+                  <Banner />
+                  <Subscribe />
+                  <Products />
+                  <Testimonials />
+                  <Footer />
+                </>
+              } />
+              <Route path="/cart" element={
+                <ProtectedRoute>
+                  <CartPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </Routes>
+            <Popup orderPopup={orderPopup} setOrderPopup={setOrderPopup} />
+          </div>
+        </CartProvider>
+      </AuthProvider>
     </Router>
   );
 };

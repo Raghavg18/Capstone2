@@ -66,7 +66,6 @@ const Testimonials = () => {
       },
     ],
   };
-
   return (
     <div className="py-10 mb-10">
       <div className="container">
@@ -117,5 +116,4 @@ const Testimonials = () => {
     </div>
   );
 };
-
 export default Testimonials;

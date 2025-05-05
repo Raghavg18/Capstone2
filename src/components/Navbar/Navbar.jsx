@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../../assets/logo.png";
 import { IoMdSearch } from "react-icons/io";
 import { FaCartShopping } from "react-icons/fa6";
 import { FaCaretDown } from "react-icons/fa";
 import DarkMode from "./DarkMode";
 import { useCart } from "../../components/Context/CartContext";
+import { useAuth } from "../../components/Context/AuthContext";
 import { useNavigate } from "react-router-dom"; 
 
 const Menu = [
@@ -23,7 +24,14 @@ const DropdownLinks = [
 
 const Navbar = ({ handleOrderPopup }) => {
   const { cartItems } = useCart(); 
-  const navigate = useNavigate(); 
+  const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [showAuthDropdown, setShowAuthDropdown] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <div className="shadow-md bg-white dark:bg-gray-900 dark:text-white duration-200 relative z-40">
@@ -45,6 +53,52 @@ const Navbar = ({ handleOrderPopup }) => {
               />
               <IoMdSearch className="text-gray-500 group-hover:text-[#fea928] absolute top-1/2 -translate-y-1/2 right-3" />
             </div>
+
+            {isAuthenticated ? (
+              <div className="flex items-center gap-4">
+                <span className="text-sm">Welcome, {user?.name}</span>
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 hover:bg-red-600 transition-all duration-200 text-white py-1 px-4 rounded-full"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="relative">
+                <button
+                  onClick={() => setShowAuthDropdown(!showAuthDropdown)}
+                  className="bg-[#fea928] hover:bg-[#ed8900] transition-all duration-200 text-white py-1 px-4 rounded-full flex items-center gap-2"
+                >
+                  Account
+                  <FaCaretDown className={`transition-transform duration-200 ${showAuthDropdown ? 'rotate-180' : ''}`} />
+                </button>
+                {showAuthDropdown && (
+                  <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
+                    <div className="py-1">
+                      <button
+                        onClick={() => {
+                          setShowAuthDropdown(false);
+                          navigate('/login');
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-[#fea928]/20"
+                      >
+                        Login
+                      </button>
+                      <button
+                        onClick={() => {
+                          setShowAuthDropdown(false);
+                          navigate('/signup');
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-[#fea928]/20"
+                      >
+                        Sign Up
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
             <button
               onClick={() => navigate("/cart")}
               className="relative bg-linear-to-r from-[#fea928] to-[#ed8900] transition-all duration-200 text-white py-1 px-4 rounded-full flex items-center gap-3 group"
@@ -59,7 +113,6 @@ const Navbar = ({ handleOrderPopup }) => {
                 </span>
               )}
             </button>
-
             <div>
               <DarkMode />
             </div>
@@ -75,8 +128,6 @@ const Navbar = ({ handleOrderPopup }) => {
               </a>
             </li>
           ))}
-
-          {/* Dropdown */}
           <li className="group relative cursor-pointer">
             <a href="#" className="flex items-center gap-[2px] py-2">
               Trending Products
@@ -104,5 +155,4 @@ const Navbar = ({ handleOrderPopup }) => {
     </div>
   );
 };
-
 export default Navbar;

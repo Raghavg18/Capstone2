@@ -9,7 +9,6 @@ const BannerImg = {
   height: "100%",
   width: "100%",
 };
-
 const Subscribe = () => {
   return (
     <div
@@ -33,5 +32,4 @@ const Subscribe = () => {
     </div>
   );
 };
-
 export default Subscribe;
