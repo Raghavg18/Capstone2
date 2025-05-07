@@ -40,7 +40,7 @@ const TopProducts = ({ handleOrderPopup }) => {
   };
 
   return (
-    <div className="container">
+    <div className="container flex mx-auto flex-col items-center justify-center py-10">
       <div className="text-left mb-24">
         <p data-aos="fade-up" className="text-sm text-[#fea928]">
           Top Rated Products for you
@@ -50,7 +50,7 @@ const TopProducts = ({ handleOrderPopup }) => {
           Discover our top rated and most loved items
         </p>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-20 md:gap-5 place-items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-20 md:gap-20 place-items-center">
         {ProductsData.map((data) => (
           <div
             key={data.id}

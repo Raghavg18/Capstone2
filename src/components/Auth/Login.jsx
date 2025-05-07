@@ -12,6 +12,7 @@ const Login = () => {
     try {
       console.log('Login attempt:', { email, password });
       navigate('/');
+      
     } catch (err) {
       setError('Invalid email or password');
     }

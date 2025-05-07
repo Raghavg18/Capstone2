@@ -15,7 +15,6 @@ const Menu = [
   { id: 4, name: "Mens Wear", link: "/#" },
   { id: 5, name: "Electronics", link: "/#" },
 ];
-
 const DropdownLinks = [
   { id: 1, name: "Trending Products", link: "/#" },
   { id: 2, name: "Best Selling", link: "/#" },
@@ -32,7 +31,6 @@ const Navbar = ({ handleOrderPopup }) => {
     logout();
     navigate('/');
   };
-
   return (
     <div className="shadow-md bg-white dark:bg-gray-900 dark:text-white duration-200 relative z-40">
       <div className="bg-[#fea928]/40 py-2">
@@ -56,7 +54,13 @@ const Navbar = ({ handleOrderPopup }) => {
 
             {isAuthenticated ? (
               <div className="flex items-center gap-4">
-                <span className="text-sm">Welcome, {user?.name}</span>
+                <span className="text-sm hidden sm:inline">Welcome, {user?.name}</span>
+                <button
+                  onClick={() => navigate('/profile')}
+                  className="bg-[#fea928] hover:bg-[#ed8900] transition-all duration-200 text-white py-1 px-4 rounded-full"
+                >
+                  Profile
+                </button>
                 <button
                   onClick={handleLogout}
                   className="bg-red-500 hover:bg-red-600 transition-all duration-200 text-white py-1 px-4 rounded-full"
@@ -74,7 +78,7 @@ const Navbar = ({ handleOrderPopup }) => {
                   <FaCaretDown className={`transition-transform duration-200 ${showAuthDropdown ? 'rotate-180' : ''}`} />
                 </button>
                 {showAuthDropdown && (
-                  <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
+                  <div className="absolute z-9 right-0 mt-0 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
                     <div className="py-1">
                       <button
                         onClick={() => {
@@ -99,6 +103,7 @@ const Navbar = ({ handleOrderPopup }) => {
                 )}
               </div>
             )}
+
             <button
               onClick={() => navigate("/cart")}
               className="relative bg-linear-to-r from-[#fea928] to-[#ed8900] transition-all duration-200 text-white py-1 px-4 rounded-full flex items-center gap-3 group"

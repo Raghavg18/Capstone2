@@ -68,7 +68,7 @@ const Testimonials = () => {
   };
   return (
     <div className="py-10 mb-10">
-      <div className="container">
+      <div className="container flex flex-col justify-center">
         <div className="text-center mb-10 max-w-[600px] mx-auto">
           <p data-aos="fade-up" className="text-sm text-[#fea928]">
             What our customers are saying
